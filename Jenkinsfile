@@ -1,7 +1,7 @@
 node {
     def app = ''
     def scannerHome = "/var/lib/jenkins/sonar-scanner-4.0.0.1744-linux"
-    EMAIL_TO = 'jay.weaver@usda.gov'
+  /*  EMAIL_TO = 'jay.weaver@usda.gov' */
 
  /* try { */
     stage('Clone repository') {
