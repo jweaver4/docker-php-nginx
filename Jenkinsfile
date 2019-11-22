@@ -1,9 +1,7 @@
 node {
     def app = ''
     def scannerHome = "/var/lib/jenkins/sonar-scanner-4.0.0.1744-linux"
-  /*  EMAIL_TO = 'jay.weaver@usda.gov' */
 
- /* try { */
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
 
@@ -54,14 +52,4 @@ node {
         sh 'docker system prune -af'
     }
         currentBuild.result = 'SUCCESS'
-  }
-/*  catch (err) {
-    currentBuild.result = 'FAILURE'
-  }
-  finally {
-    mail to: EMAIL_TO,
-         from: 'jenkins.fs@usda.gov',
-         subject: "Status of pipeline: ${currentBuild.fullDisplayName}",
-         body: "${env.BUILD_URL} has result ${currentBuild.result}"
-  }*/
 }
