@@ -11,27 +11,17 @@ node {
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
-        app = docker.build("pe-201642-agent.puppetdebug.vlan:5000/jayweaver/php_nginx:${env.BUILD_NUMBER}", '--no-cache --pull .')
+
     }
 
-    stage('Test image') {
-        /* Ideally, we would run a test framework against our image. */
-        //sh 'echo "Tests passed"'
-        withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner"
-        }
-        timeout(time: 10, unit: 'MINUTES') {
-            waitForQualityGate abortPipeline: true
-        }
-    }
-
-    stage('Push image to DTR') {
+    stage('Build container image & push to DTR') {
         /* Finally, we'll push the image with two tags:
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
        docker.withRegistry('http://pe-201642-agent.puppetdebug.vlan:5000', 'portus_registry') {
-          app.push("${env.BUILD_NUMBER}")
+            app = docker.build("pe-201642-agent.puppetdebug.vlan:5000/jayweaver/php_nginx:${env.BUILD_NUMBER}", '--no-cache --pull .')
+            app.push("${env.BUILD_NUMBER}")
        }
     }
 
@@ -47,9 +37,4 @@ node {
 			       docker.image("pe-201642-agent.puppetdebug.vlan:5000/jayweaver/php_nginx:${env.BUILD_NUMBER}").run("--name php_nginx -p 8080:8080")
         }
   	}
-
-    stage('Prune Docker Images') {
-        sh 'docker system prune -af'
-    }
-        currentBuild.result = 'SUCCESS'
 }
