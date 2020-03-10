@@ -15,7 +15,6 @@ node {
 
       withCredentials([usernamePassword(credentialsId: servicePrincipalId, passwordVariable: pass, usernameVariable: username'), string(credentialsId: tenant, variable: 'tenantId')]){
 
-<<<<<<< HEAD
         sh 'az login --service-principal -u servicePrincipalId -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
       }
     }
@@ -44,26 +43,7 @@ node {
          * Pushing multiple tags is cheap, as all the layers are reused. */
     *   docker.withRegistry('ttregistry.azurecr.us') {
     *      app.push("${env.BUILD_NUMBER}")
-    *   }
     } */
-=======
-    stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-
-    }
-
-    stage('Build container image & push to DTR') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
-       docker.withRegistry('http://pe-201642-agent.puppetdebug.vlan:5000', 'portus_registry') {
-            app = docker.build("pe-201642-agent.puppetdebug.vlan:5000/jayweaver/php_nginx:${env.BUILD_NUMBER}", '--no-cache --pull .')
-            app.push("${env.BUILD_NUMBER}")
-       }
-    }
->>>>>>> 2168a59c9bb0296271acdbc6c6d1de594db717be
 
     /* stage('Remove existing container') {
       *  docker.withServer('tcp://pe-201642-agent:2375') {
@@ -72,7 +52,6 @@ node {
       *        }
       * }
 
-<<<<<<< HEAD
     *stage('Deploy new container') {
   	*    docker.withServer('tcp://pe-201642-agent:2375') {
 		*	       docker.image("pe-201642-agent.puppetdebug.vlan:5000/jayweaver/php_nginx:${env.BUILD_NUMBER}").run("--name php_nginx -p 8080:8080")
@@ -83,11 +62,4 @@ node {
     *    sh 'docker system prune -af'
     * }
         currentBuild.result = 'SUCCESS' */
-=======
-    stage('Deploy new container') {
-  	    docker.withServer('tcp://pe-201642-agent:2375') {
-			       docker.image("pe-201642-agent.puppetdebug.vlan:5000/jayweaver/php_nginx:${env.BUILD_NUMBER}").run("--name php_nginx -p 8080:8080")
-        }
-  	}
->>>>>>> 2168a59c9bb0296271acdbc6c6d1de594db717be
 }
