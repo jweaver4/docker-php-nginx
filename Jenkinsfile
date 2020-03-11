@@ -7,6 +7,7 @@ def app = ''
   }
 
   stage('Test image') {
+     scannerHome = tool 'Ssonarqube';
       withSonarQubeEnv('sonarqube') {
         /*  sh "${scannerHome}/bin/sonar-scanner"*/
         sh "env"
