@@ -15,7 +15,7 @@ def app = ''
                                          tenantIdVariable: 'TENANT_ID')]) {
          sh 'az login --service-principal -u $CLIENT_ID -p $CLIENT_SECRET -t $TENANT_ID'
 
-         app = docker.build("https://ttregistry.azurecr.us/linux/php:${env.BUILD_NUMBER}")
+         app = docker.build("ttregistry.azurecr.us/linux/php:${env.BUILD_NUMBER}")
          app.push("${env.BUILD_NUMBER}")
     }
    }
