@@ -9,8 +9,7 @@ def app = ''
   stage('Test image') {
      scannerHome = tool 'sonarqube';
       withSonarQubeEnv('sonarqube') {
-        /*  sh "${scannerHome}/bin/sonar-scanner"*/
-        sh "env"
+        sh "${scannerHome}/bin/sonar-scanner"
       }
       timeout(time: 10, unit: 'MINUTES') {
           waitForQualityGate abortPipeline: true
