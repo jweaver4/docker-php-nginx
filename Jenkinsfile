@@ -1,4 +1,5 @@
 node {
+def app = ''
 
   stage('Clone repository') {
       checkout scm
@@ -13,9 +14,8 @@ node {
                                          clientSecretVariable: 'CLIENT_SECRET',
                                          tenantIdVariable: 'TENANT_ID')]) {
          sh 'az login --service-principal -u $CLIENT_ID -p $CLIENT_SECRET -t $TENANT_ID'
-     }
-     docker.withRegistry('https://ttregistry.azurecr.us', 'azsvcprincipal') {
-        app = docker.build("'https://ttregistry.azurecr.us/linux/php:${env.BUILD_NUMBER}", '--no-cache --pull .')
+
+         app = docker.build("https://ttregistry.azurecr.us/linux/php:${env.BUILD_NUMBER}", '--no-cache --pull .')
          app.push("${env.BUILD_NUMBER}")
     }
    }
