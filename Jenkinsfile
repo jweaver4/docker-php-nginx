@@ -1,3 +1,4 @@
+#!/usr/bin/env groovy
 node {
 def app = ''
 
@@ -6,8 +7,6 @@ def app = ''
   }
 
   stage('Test image') {
-      /* Ideally, we would run a test framework against our image. */
-      //sh 'echo "Tests passed"'
       withSonarQubeEnv('sonarqube') {
           sh "${scannerHome}/bin/sonar-scanner"
       }
