@@ -5,7 +5,18 @@ def app = ''
       checkout scm
   }
 
-  stage("Pushing to Azure Storage") {
+  stage('Test image') {
+      /* Ideally, we would run a test framework against our image. */
+      //sh 'echo "Tests passed"'
+      withSonarQubeEnv('sonarqube') {
+          sh "${scannerHome}/bin/sonar-scanner"
+      }
+      timeout(time: 10, unit: 'MINUTES') {
+          waitForQualityGate abortPipeline: true
+      }
+  }
+
+  stage("Build & Push to Azure Storage") {
      sh 'az cloud set --name AzureUSGovernment'
 
      withCredentials([azureServicePrincipal(credentialsId: 'azsvcprincipal',
@@ -18,6 +29,6 @@ def app = ''
 
          app = docker.build("ttregistry.azurecr.us/linux/php:${env.BUILD_NUMBER}")
          app.push("${env.BUILD_NUMBER}")
-    }
+     }
    }
 }
