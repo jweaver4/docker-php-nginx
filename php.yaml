@@ -1,43 +1,41 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: php
   name: php
   namespace: development
 spec:
   replicas: 1
-  strategy: {}
+  selector:
+    matchLabels:
+      app: php
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: php
     spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
       containers:
-      - image: ttregistry.azurecr.us/linux/php:49
-        name: php
+      - name: php
+        image: ttregistry.azurecr.us/linux/php:53
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
         ports:
         - containerPort: 83
-        resources: {}
-      restartPolicy: Always
-status: {}
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: null
-  labels:
-    app: php
   name: php
   namespace: development
 spec:
   ports:
-  - name: "port"
-    port: 80
-    targetPort: 83
+ - port: 83
   selector:
     app: php
-status:
-  loadBalancer: {}
