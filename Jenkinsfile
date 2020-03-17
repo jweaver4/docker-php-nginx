@@ -31,7 +31,7 @@ def app = ''
          app.push("${env.BUILD_NUMBER}")
      }
    }
-  /* stage("Push Container to Kubernetes") {
+  stage("Push Container to Kubernetes") {
      sh 'kubectl apply -f php.yaml'
-   } */
+   } 
 }
