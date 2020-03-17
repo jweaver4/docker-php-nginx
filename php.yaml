@@ -8,6 +8,7 @@ metadata:
   labels:
     io.kompose.service: web
   name: web
+  namespace: development
 spec:
   replicas: 1
   strategy: {}
@@ -36,6 +37,7 @@ metadata:
   labels:
     io.kompose.service: web
   name: web
+  namespace: development
 spec:
   ports:
   - name: "80"
