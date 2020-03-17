@@ -1,12 +1,8 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  annotations:
-    kompose.cmd: C:\Users\jay\kompose\kompose.exe convert
-    kompose.version: 1.16.0 (0c01309)
-  creationTimestamp: null
   labels:
-    io.kompose.service: php
+    app: php
   name: php
   namespace: development
 spec:
@@ -16,7 +12,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: php
+        app: php
     spec:
       containers:
       - image: ttregistry.azurecr.us/linux/php:49
@@ -26,16 +22,14 @@ spec:
         resources: {}
       restartPolicy: Always
 status: {}
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    kompose.cmd: C:\Users\jay\kompose\kompose.exe convert
-    kompose.version: 1.16.0 (0c01309)
   creationTimestamp: null
   labels:
-    io.kompose.service: php
+    app: php
   name: php
   namespace: development
 spec:
@@ -44,6 +38,6 @@ spec:
     port: 80
     targetPort: 83
   selector:
-    io.kompose.service: php
+    app: php
 status:
   loadBalancer: {}
