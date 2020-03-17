@@ -6,8 +6,8 @@ metadata:
     kompose.version: 1.16.0 (0c01309)
   creationTimestamp: null
   labels:
-    io.kompose.service: web
-  name: web
+    io.kompose.service: php
+  name: php
   namespace: development
 spec:
   replicas: 1
@@ -16,11 +16,11 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        io.kompose.service: web
+        io.kompose.service: php
     spec:
       containers:
-      - image: ttregistry.azurecr.us/linux/php:latest
-        name: web
+      - image: ttregistry.azurecr.us/linux/php:49
+        name: php
         ports:
         - containerPort: 83
         resources: {}
@@ -35,15 +35,15 @@ metadata:
     kompose.version: 1.16.0 (0c01309)
   creationTimestamp: null
   labels:
-    io.kompose.service: web
-  name: web
+    io.kompose.service: php
+  name: php
   namespace: development
 spec:
   ports:
-  - name: "80"
+  - name: "port"
     port: 80
     targetPort: 83
   selector:
-    io.kompose.service: web
+    io.kompose.service: php
 status:
   loadBalancer: {}
