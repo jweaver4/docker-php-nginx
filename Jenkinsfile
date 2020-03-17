@@ -32,6 +32,6 @@ def app = ''
      }
    }
    stage("Push Container to Kubernetes") {
-     sh 'kubectl apply -f ./php.yaml'
+     sh 'kubectl apply -f php.yaml'
    }
 }
