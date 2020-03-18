@@ -42,6 +42,26 @@ def aks = 'TT-AKSCluster'
                   configFilePaths: 'src/php.yaml',
                   enableConfigSubstitution: true
    }
+
+   def verifyEnvironment = { service ->
+           sh """
+             endpoint_ip="\$(kubectl --kubeconfig=kubeconfig get services '${service}' --output json | jq -r '.status.loadBalancer.ingress[0].ip')"
+             count=0
+             while true; do
+                 count=\$(expr \$count + 1)
+                 if curl -m 10 "http://\$endpoint_ip"; then
+                     break;
+                 fi
+                 if [ "\$count" -gt 30 ]; then
+                     echo 'Timeout while waiting for the ${service} endpoint to be ready'
+                     exit 1
+                 fi
+                 echo "${service} endpoint is not ready, wait 10 seconds..."
+                 sleep 10
+             done
+           """
+       }
+
    stage('Verify Deployment') {
        // verify the production environment is working properly
        verifyEnvironment('linux-php')
