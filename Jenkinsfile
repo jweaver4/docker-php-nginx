@@ -2,6 +2,10 @@
 node {
 def app = ''
 
+def servicePrincipalId = 'd890b33f-0a30-47c9-bac2-86b895de310a'
+def resourceGroup = 'TT-Jay-SandBox'
+def aks = 'TT-AKSCluster'
+
   stage('Clone repository') {
       checkout scm
   }
@@ -27,11 +31,16 @@ def app = ''
          sh 'az login --service-principal -u $CLIENT_ID -p $CLIENT_SECRET -t $TENANT_ID'
          sh 'az acr login --name ttregistry'
 
-         app = docker.build("ttregistry.azurecr.us/linux/php:${env.BUILD_NUMBER}")
-         app.push("${env.BUILD_NUMBER}")
+        /* app = docker.build("ttregistry.azurecr.us/linux/php:${env.BUILD_NUMBER}")
+         app.push("${env.BUILD_NUMBER}") */
      }
    }
   stage("Push Container to Kubernetes") {
+    acsDeploy azureCredentialsId: servicePrincipalId,
+                  resourceGroupName: resourceGroup,
+                  containerService: "${aks} | AKS",
+                  configFilePaths: 'src/php.yml',
+                  enableConfigSubstitution: true
      sh 'kubectl apply -f php.yaml'
-   } 
+   }
 }
