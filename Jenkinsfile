@@ -35,11 +35,15 @@ def aks = 'TT-AKSCluster'
          app.push("${env.BUILD_NUMBER}") */
      }
    }
-  stage("Push Container to Kubernetes") {
+  stage("Deploy") {
     acsDeploy azureCredentialsId: 'azsvcprincipal',
                   resourceGroupName: resourceGroup,
                   containerService: "${aks} | AKS",
                   configFilePaths: 'src/php.yaml',
                   enableConfigSubstitution: true
+   }
+   stage('Verify Deployment') {
+       // verify the production environment is working properly
+       verifyEnvironment('linux-php')
    }
 }
