@@ -15,7 +15,7 @@ spec:
         app: linux-php
     spec:
       containers:
-      - image: ttregistry.azurecr.us/linux/php:53
+      - image: ttregistry.azurecr.us/linux/php:${env.BUILD_NUMBER}
         name: linux-php
         ports:
         - containerPort: 83
