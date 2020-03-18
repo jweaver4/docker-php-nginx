@@ -4,7 +4,6 @@ metadata:
   annotations:
     kompose.cmd: C:\Users\jay\kompose\kompose.exe convert
     kompose.version: 1.16.0 (0c01309)
-  creationTimestamp: null
   labels:
     io.kompose.service: web
   name: web
@@ -32,7 +31,6 @@ metadata:
   annotations:
     kompose.cmd: C:\Users\jay\kompose\kompose.exe convert
     kompose.version: 1.16.0 (0c01309)
-  creationTimestamp: null
   labels:
     io.kompose.service: web
   name: web
