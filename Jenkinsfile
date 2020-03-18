@@ -36,11 +36,11 @@ def aks = 'TT-AKSCluster'
      }
    }
 
-  /* stage("Deploy") {
+   stage("Deploy") {
     acsDeploy azureCredentialsId: 'azsvcprincipal',
                   resourceGroupName: resourceGroup,
                   containerService: "${aks} | AKS",
                   configFilePaths: 'src/php.yaml',
                   enableConfigSubstitution: true
-   } */
+   } 
 }
