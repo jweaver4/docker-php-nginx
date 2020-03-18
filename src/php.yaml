@@ -1,41 +1,47 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: php
-  namespace: development
+  annotations:
+    kompose.cmd: C:\Users\jay\kompose\kompose.exe convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: web
+  name: web
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: php
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: php
+        io.kompose.service: web
     spec:
-      nodeSelector:
-        "beta.kubernetes.io/os": linux
       containers:
-      - name: php
-        image: ttregistry.azurecr.us/linux/php:53
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 250m
-            memory: 256Mi
+      - image: ttregistry.azurecr.us/linux/php:53
+        name: web
         ports:
         - containerPort: 83
-
+        resources: {}
+      restartPolicy: Always
+status: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: php
-  namespace: development
+  annotations:
+    kompose.cmd: C:\Users\jay\kompose\kompose.exe convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: web
+  name: web
 spec:
   ports:
- - port: 83
+  - name: "80"
+    port: 80
+    targetPort: 83
   selector:
-    app: php
+    io.kompose.service: web
+status:
+  loadBalancer: {}
