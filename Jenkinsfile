@@ -41,6 +41,5 @@ def aks = 'TT-AKSCluster'
                   containerService: "${aks} | AKS",
                   configFilePaths: 'src/php.yaml',
                   enableConfigSubstitution: true
-     sh 'kubectl apply -f php.yaml'
    }
 }
