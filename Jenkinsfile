@@ -39,7 +39,7 @@ def aks = 'TT-AKSCluster'
     acsDeploy azureCredentialsId: 'azsvcprincipal',
                   resourceGroupName: resourceGroup,
                   containerService: "${aks} | AKS",
-                  configFilePaths: 'src/php.yml',
+                  configFilePaths: 'src/php.yaml',
                   enableConfigSubstitution: true
      sh 'kubectl apply -f php.yaml'
    }
