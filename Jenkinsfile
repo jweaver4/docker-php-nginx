@@ -36,7 +36,7 @@ def aks = 'TT-AKSCluster'
      }
    }
   stage("Push Container to Kubernetes") {
-    acsDeploy azureCredentialsId: servicePrincipalId,
+    acsDeploy azureCredentialsId: 'azsvcprincipal',
                   resourceGroupName: resourceGroup,
                   containerService: "${aks} | AKS",
                   configFilePaths: 'src/php.yml',
