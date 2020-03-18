@@ -3,19 +3,20 @@ kind: Deployment
 metadata:
   annotations:
   labels:
-    app: web
-  name: web
+    app: linux-php
+  name: linux-php
+  namespace: development
 spec:
   replicas: 1
   strategy: {}
   template:
     metadata:
       labels:
-        app: web
+        app: linux-php
     spec:
       containers:
       - image: ttregistry.azurecr.us/linux/php:53
-        name: web
+        name: linux-php
         ports:
         - containerPort: 83
         resources: {}
@@ -25,14 +26,15 @@ kind: Service
 metadata:
   annotations:
   labels:
-    app: web
-  name: web
+    app: linux-php
+  name: linux-php
+  namespace: development
 spec:
   ports:
   - name: "ports"
     port: 80
     targetPort: 83
   selector:
-    app: web
+    app: linux-php
 status:
   loadBalancer: {}
