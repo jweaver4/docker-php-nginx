@@ -18,7 +18,7 @@ spec:
       - image: ttregistry.azurecr.us/linux/php:${BUILD_NUMBER}
         name: linux-php
         ports:
-        - containerPort: 83
+        - containerPort: 8080
         resources: {}
 ---
 apiVersion: v1
@@ -31,10 +31,12 @@ metadata:
   namespace: development
 spec:
   ports:
-  - name: "ports"
-    port: 80
-    targetPort: 83
+  - name: tcp-8080
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
   selector:
     app: linux-php
-status:
-  loadBalancer: {}
+  type: LoadBalancer
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
